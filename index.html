@@ -1,20 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#3B82F6"><meta name="description" content="Wrap Calculator for film production">
-<link rel="manifest" href="manifest.json"><link rel="icon" href="icons/icon-192.png"><link rel="stylesheet" href="style.css">
-<title>Wrap Calculator</title></head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#3B82F6"><meta name="description" content="Wrap report and working-time calculator for film production">
+  <link rel="manifest" href="manifest.json"><link rel="icon" href="icons/icon-192.png"><link rel="stylesheet" href="style.css"><title>Wrap Calculator</title>
+</head>
 <body>
-<main class="app"><section class="card"><h1>WRAP CALCULATOR</h1>
-<div class="fields">
-<label class="field"><span>CREW CALL</span><input id="crew" inputmode="numeric" maxlength="5" placeholder="HHMM"></label>
-<label class="field"><span>LUNCH IN</span><input id="lunchIn" inputmode="numeric" maxlength="5" placeholder="HHMM"></label>
-<label class="field"><span>LUNCH OUT</span><input id="lunchOut" inputmode="numeric" maxlength="5" placeholder="HHMM"></label>
-<label class="field"><span>WRAP TIME</span><input id="wrap" inputmode="numeric" maxlength="5" placeholder="HHMM"></label>
-</div>
-<div class="buttons"><button id="calculate" class="primary">CALCULATE</button><button id="clear" class="secondary">CLEAR</button></div>
-<section id="result" class="results"><div class="result-row"><span>TOTAL DAY</span><strong id="totalValue" class="copyable" title="Click to copy">—</strong></div><div class="result-row"><span>LUNCH</span><strong id="lunchValue" class="copyable" title="Click to copy">—</strong></div><div class="result-row"><span>WORKED</span><strong id="workedValue" class="copyable" title="Click to copy">—</strong></div></section>
-</section></main>
-<div id="errorDialog" class="dialog-backdrop" hidden><div class="dialog"><h2>Invalid Time</h2><p id="errorMessage"></p><button id="errorOk" class="primary">OK</button></div></div>
-<script src="script.js"></script></body></html>
+  <main class="app"><div class="calculator-grid">
+    <section class="card report-card" aria-labelledby="report-title">
+      <h1 id="report-title">WRAP REPORT</h1>
+      <section class="report-group" aria-labelledby="pages-title"><h2 id="pages-title">PAGES</h2><p class="help-text">Whole pages and eighths — leave any entry blank if you do not need it.</p>
+        <div class="page-entries" aria-label="Page entries">
+          <div class="page-entry"><input class="page-whole digits-only" inputmode="numeric" maxlength="2" aria-label="Pages entry 1, whole pages"><input class="page-eighth digits-eighth" inputmode="numeric" maxlength="1" aria-label="Pages entry 1, eighths"><span class="static-symbol" aria-hidden="true">/8</span></div><span class="plus" aria-hidden="true">+</span>
+          <div class="page-entry"><input class="page-whole digits-only" inputmode="numeric" maxlength="2" aria-label="Pages entry 2, whole pages"><input class="page-eighth digits-eighth" inputmode="numeric" maxlength="1" aria-label="Pages entry 2, eighths"><span class="static-symbol" aria-hidden="true">/8</span></div><span class="plus" aria-hidden="true">+</span>
+          <div class="page-entry"><input class="page-whole digits-only" inputmode="numeric" maxlength="2" aria-label="Pages entry 3, whole pages"><input class="page-eighth digits-eighth" inputmode="numeric" maxlength="1" aria-label="Pages entry 3, eighths"><span class="static-symbol" aria-hidden="true">/8</span></div>
+        </div><div class="report-result"><span>TOTAL PAGES</span><button id="pagesValue" class="copy-value" type="button" aria-label="Copy total pages">—</button></div>
+      </section>
+      <section class="report-group" aria-labelledby="minutes-title"><h2 id="minutes-title">MINUTES</h2>
+        <div class="time-entries" aria-label="Minutes and seconds entries">
+          <div class="minute-entry"><input class="minute-minutes digits-only" inputmode="numeric" maxlength="2" aria-label="Minutes entry 1, minutes"><span class="static-symbol" aria-hidden="true">:</span><input class="minute-seconds digits-only" inputmode="numeric" maxlength="2" aria-label="Minutes entry 1, seconds"></div><span class="plus" aria-hidden="true">+</span>
+          <div class="minute-entry"><input class="minute-minutes digits-only" inputmode="numeric" maxlength="2" aria-label="Minutes entry 2, minutes"><span class="static-symbol" aria-hidden="true">:</span><input class="minute-seconds digits-only" inputmode="numeric" maxlength="2" aria-label="Minutes entry 2, seconds"></div><span class="plus" aria-hidden="true">+</span>
+          <div class="minute-entry"><input class="minute-minutes digits-only" inputmode="numeric" maxlength="2" aria-label="Minutes entry 3, minutes"><span class="static-symbol" aria-hidden="true">:</span><input class="minute-seconds digits-only" inputmode="numeric" maxlength="2" aria-label="Minutes entry 3, seconds"></div>
+        </div><div class="report-result"><span>TOTAL MINUTES</span><button id="minutesValue" class="copy-value" type="button" aria-label="Copy total minutes">—</button></div>
+      </section>
+      <section class="report-group" aria-labelledby="setups-title"><h2 id="setups-title">SETUPS</h2>
+        <div class="setup-entries" aria-label="Setup entries"><input class="setup-input digits-only" inputmode="numeric" maxlength="2" aria-label="Setups entry 1"><span class="plus" aria-hidden="true">+</span><input class="setup-input digits-only" inputmode="numeric" maxlength="2" aria-label="Setups entry 2"><span class="plus" aria-hidden="true">+</span><input class="setup-input digits-only" inputmode="numeric" maxlength="2" aria-label="Setups entry 3"></div><div class="report-result"><span>TOTAL SETUPS</span><button id="setupsValue" class="copy-value" type="button" aria-label="Copy total setups">—</button></div>
+      </section>
+    </section>
+    <section class="card time-card" aria-labelledby="calculator-title"><h1 id="calculator-title">WRAP CALCULATOR</h1>
+      <div class="fields"><label class="field"><span>CREW CALL</span><input id="crew" class="digits-only" inputmode="numeric" maxlength="4" placeholder="HHMM"></label><label class="field"><span>LUNCH IN</span><input id="lunchIn" class="digits-only" inputmode="numeric" maxlength="4" placeholder="HHMM"></label><label class="field"><span>LUNCH OUT</span><input id="lunchOut" class="digits-only" inputmode="numeric" maxlength="4" placeholder="HHMM"></label><label class="field"><span>WRAP TIME</span><input id="wrap" class="digits-only" inputmode="numeric" maxlength="4" placeholder="HHMM"></label></div>
+      <div class="buttons"><button id="calculate" class="primary" type="button">CALCULATE</button><button id="clear" class="secondary" type="button">CLEAR</button></div>
+      <section id="result" class="results" aria-live="polite"><div class="result-row"><span>TOTAL DAY</span><button id="totalValue" class="copy-value" type="button" aria-label="Copy total day">—</button></div><div class="result-row"><span>LUNCH</span><button id="lunchValue" class="copy-value" type="button" aria-label="Copy lunch time">—</button></div><div class="result-row"><span>WORKED</span><button id="workedValue" class="copy-value" type="button" aria-label="Copy worked time">—</button></div></section>
+    </section>
+  </div></main>
+  <div id="errorDialog" class="dialog-backdrop" hidden><div class="dialog" role="alertdialog" aria-modal="true"><h2>Invalid Time</h2><p id="errorMessage"></p><button id="errorOk" class="primary" type="button">OK</button></div></div>
+  <script src="script.js"></script>
+</body></html>
